@@ -55,8 +55,8 @@ const AddProperty: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await addProperty(property);
-    history.push('/');
+    // await addProperty(property);
+    // history.push('/');
   };
 
   return (

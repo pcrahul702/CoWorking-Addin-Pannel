@@ -97,7 +97,14 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             Delete
           </button>
           <button
-            className="bg-yellow-600 text-white px-4 py-2 rounded-lg"
+            
+
+
+
+
+
+
+            
             onClick={handleEdit}
           >
            Edit

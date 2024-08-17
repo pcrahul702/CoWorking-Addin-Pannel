@@ -18,7 +18,7 @@ interface Property {
 
 const PropertyList: React.FC = () => {
     const navigate = useNavigate();
-    const [properties, setProperties] = useState( [
+    const [properties, setProperties] = useState<Property[]>( [
         {
       _id:1,
           imageUrl: 'https://via.placeholder.com/150',
@@ -47,7 +47,7 @@ const PropertyList: React.FC = () => {
         },
         {_id:3,
             imageUrl: 'https://via.placeholder.com/150',
-            isPopular: true,
+            isPopular: false,
             title: 'Rahul - Business Kumar',
             location: 'Lohegoan , Pune',
             hours: 'Open Now, 08:00 to 22:00',
@@ -72,13 +72,12 @@ const PropertyList: React.FC = () => {
           },
       ]
     );
-//   const properties: Property[] =
+
   const handleDelete = async (id: Number) => {
     console.log(id)
     setProperties(properties.filter(property => property._id !== id));
 
-    // await deleteProperty(id);
-    // setProperties(properties.filter(property => property.id !== id));
+
   };
   const handleEdit = (id: Number) => {
     console.log(id);

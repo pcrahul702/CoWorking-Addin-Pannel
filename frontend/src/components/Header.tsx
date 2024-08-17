@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
 
 const Header = () => {
@@ -16,9 +16,9 @@ const Header = () => {
             </form>
           </div>
         </div>
-        <div className="flex gap-5">
+        <div className="flex gap-5 items-center">
           <div className="cursor-pointer">Share Requirment</div>
-          <Link to="/add"  className="cursor-pointer" >Add Property</Link>
+          <Link to="/add"   className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-white hover:text-blue-600" >Add Property</Link>
         </div>
       </div>
     </div>
