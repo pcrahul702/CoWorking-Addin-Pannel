@@ -10,7 +10,8 @@ interface PropertyCardProps {
   facilities: string[];
   price: string;
   currency: string;
-  onQuoteClick: () => void;
+  handleDelete: () => void;
+  handleEdit:()=>void;
   isFavorite?: boolean;
 }
 
@@ -24,7 +25,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   facilities,
   price,
   currency,
-  onQuoteClick,
+  handleDelete,
+  handleEdit,
   isFavorite = false,
 }) => {
   return (
@@ -88,12 +90,18 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             </p>
             <p className="text-sm text-gray-600">/ desk / month</p>
           </div>
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-            onClick={onQuoteClick}
+        <div className='flex gap-5'>  <button
+            className="bg-red-600 text-white px-4 py-2 rounded-lg"
+            onClick={handleDelete}
           >
-            Get Quote
+            Delete
           </button>
+          <button
+            className="bg-yellow-600 text-white px-4 py-2 rounded-lg"
+            onClick={handleEdit}
+          >
+           Edit
+          </button></div>
         </div>
       </div>
     </div>

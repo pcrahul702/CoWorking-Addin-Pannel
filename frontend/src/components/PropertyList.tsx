@@ -1,7 +1,9 @@
-import React from 'react';
+import React,{useState} from 'react';
 import PropertyCard from './PropertyCard';
 
+import { useNavigate } from 'react-router-dom';
 interface Property {
+    _id:Number;
   imageUrl: string;
   isPopular: boolean;
   title: string;
@@ -15,61 +17,73 @@ interface Property {
 }
 
 const PropertyList: React.FC = () => {
-  const properties: Property[] = [
-    {
-      imageUrl: 'https://via.placeholder.com/150',
-      isPopular: true,
-      title: 'Awfis - Business Mantri',
-      location: 'Viman Nagar, Pune',
-      hours: 'Open Now, 11:00 to 23:00',
-      meetingRooms: ['Meeting Rooms', 'Break Rooms'],
-      facilities: ['Dedicated Desks', 'Private Cabins', 'Managed Office'],
-      price: '6,999',
-      currency: '₹',
-      isFavorite: true,
-    },
-    {
-      imageUrl: 'https://via.placeholder.com/150',
-      isPopular: false,
-      title: 'CoWorks - Magarpatta',
-      location: 'Magarpatta, Pune',
-      hours: 'Open Now, 09:00 to 18:00',
-      meetingRooms: ['Conference Rooms', 'Event Spaces'],
-      facilities: ['Open Workspaces', 'Private Offices'],
-      price: '15,999',
-      currency: '₹',
-      isFavorite: false,
-    },
-    {
-        imageUrl: 'https://via.placeholder.com/150',
-        isPopular: true,
-        title: 'Rahul - Business Kumar',
-        location: 'Lohegoan , Pune',
-        hours: 'Open Now, 08:00 to 22:00',
-        meetingRooms: ['Meeting Rooms', 'Break Rooms'],
-        facilities: ['Dedicated Desks', 'Private Cabins', 'Managed Office'],
-        price: '3,999',
-        currency: '₹',
-        isFavorite: true,
-      },
-      {
-        imageUrl: 'https://via.placeholder.com/150',
-        isPopular: true,
-        title: 'Vikash - Bussiness Soln',
-        location: 'shivagi Nagar , Pune',
-        hours: 'Open Now, 08:00 to 22:00',
-        meetingRooms: ['Meeting Rooms', 'Break Rooms'],
-        facilities: ['Dedicated Desks', 'Private Cabins', 'Managed Office'],
-        price: '10,999',
-        currency: '₹',
-        isFavorite: true,
-      },
-  ];
+    const navigate = useNavigate();
+    const [properties, setProperties] = useState( [
+        {
+      _id:1,
+          imageUrl: 'https://via.placeholder.com/150',
+          isPopular: true,
+          title: 'Awfis - Business Mantri',
+          location: 'Viman Nagar, Pune',
+          hours: 'Open Now, 11:00 to 23:00',
+          meetingRooms: ['Meeting Rooms', 'Break Rooms'],
+          facilities: ['Dedicated Desks', 'Private Cabins', 'Managed Office'],
+          price: '6,999',
+          currency: '₹',
+          isFavorite: true,
+        },
+        {
+            _id:2,
+          imageUrl: 'https://via.placeholder.com/150',
+          isPopular: false,
+          title: 'CoWorks - Magarpatta',
+          location: 'Magarpatta, Pune',
+          hours: 'Open Now, 09:00 to 18:00',
+          meetingRooms: ['Conference Rooms', 'Event Spaces'],
+          facilities: ['Open Workspaces', 'Private Offices'],
+          price: '15,999',
+          currency: '₹',
+          isFavorite: false,
+        },
+        {_id:3,
+            imageUrl: 'https://via.placeholder.com/150',
+            isPopular: true,
+            title: 'Rahul - Business Kumar',
+            location: 'Lohegoan , Pune',
+            hours: 'Open Now, 08:00 to 22:00',
+            meetingRooms: ['Meeting Rooms', 'Break Rooms'],
+            facilities: ['Dedicated Desks', 'Private Cabins', 'Managed Office'],
+            price: '3,999',
+            currency: '₹',
+            isFavorite: true,
+          },
+          {
+            _id:4,
+            imageUrl: 'https://via.placeholder.com/150',
+            isPopular: true,
+            title: 'Vikash - Bussiness Soln',
+            location: 'shivagi Nagar , Pune',
+            hours: 'Open Now, 08:00 to 22:00',
+            meetingRooms: ['Meeting Rooms', 'Break Rooms'],
+            facilities: ['Dedicated Desks', 'Private Cabins', 'Managed Office'],
+            price: '10,999',
+            currency: '₹',
+            isFavorite: true,
+          },
+      ]
+    );
+//   const properties: Property[] =
+  const handleDelete = async (id: Number) => {
+    console.log(id)
+    setProperties(properties.filter(property => property._id !== id));
 
-  const handleQuoteClick = (title: string) => {
-    console.log(`Get Quote clicked for ${title}`);
+    // await deleteProperty(id);
+    // setProperties(properties.filter(property => property.id !== id));
   };
-
+  const handleEdit = (id: Number) => {
+    console.log(id);
+    navigate(`/edit/${id}`);
+  };
   return (
     <div className=' container mx-auto grid lg:grid-cols-2 grid-cols-1 gap-5 my-5 '>
       {properties.map((property, index) => (
@@ -84,8 +98,9 @@ const PropertyList: React.FC = () => {
           facilities={property.facilities}
           price={property.price}
           currency={property.currency}
-          onQuoteClick={() => handleQuoteClick(property.title)}
+          handleDelete={() => handleDelete(property._id)}
           isFavorite={property.isFavorite}
+          handleEdit={() => handleEdit(property._id)}
         />
       ))}
     </div>
