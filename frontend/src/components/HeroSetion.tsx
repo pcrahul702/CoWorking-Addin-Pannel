@@ -9,9 +9,9 @@ export const HeroSetion = () => {
       ];
     
       const locationOptions = [
-        { label: 'City 1', value: 'city1' },
-        { label: 'City 2', value: 'city2' },
-        { label: 'City 3', value: 'city3' },
+        { label: 'Pune', value: 'Pune' },
+        { label: 'Noida', value: 'Noida' },
+        { label: 'Bengaluru', value: 'Bengaluru' },
       ];
     
       const propertyTypeOptions = [

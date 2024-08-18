@@ -7,9 +7,10 @@ import { addData } from "../redux/slices/PropertiesSlice";
 import { RootState } from "../redux/store";
 const Home = () => {
   const dispatch = useDispatch();
-  const properties = useSelector(
-    (state: RootState) => state.PropertiesSlice.value
+  const {value,filtered} = useSelector(
+    (state: RootState) => state.PropertiesSlice
   );
+  console.log(value)
   useEffect(() => {
     const fetchProperties = async () => {
       try {
@@ -25,7 +26,7 @@ const Home = () => {
   return (
     <div className="">
       <HeroSetion />
-      <PropertyList properties={properties} />
+      <PropertyList properties={filtered.length > 0 ? filtered : value} />
     </div>
   );
 };
