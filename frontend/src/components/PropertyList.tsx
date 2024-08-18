@@ -1,27 +1,35 @@
-import React  from "react";
+import React from "react";
 import PropertyCard from "./PropertyCard";
+import { deleteProperty } from "../services/WebService";
+import { PropertywithId } from "../Interface/interface";
+import { useDispatch } from "react-redux";
+
+import { useNavigate } from "react-router-dom";
+import { addData } from "../redux/slices/PropertiesSlice";
 
 interface PropertyListProps {
-  properties: Property[];
-  handleDelete: (id: string) => void;
-  handleEdit: (id: string) => void;
+  properties: PropertywithId[];
 }
-export interface Property {
-  _id: string;
-  imageUrl: string;
-  isPopular: boolean;
-  title: string;
-  location: string;
-  hours: string;
-  meetingRooms: string[];
-  facilities: string[];
-  price: string;
-  currency: string;
-  isFavorite: boolean;
-}
-const PropertyList: React.FC<PropertyListProps> = ({properties,handleDelete,handleEdit}) => {
+const PropertyList: React.FC<PropertyListProps> = ({ properties }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const handleDelete = async (id: String) => {
+    try {
+      await deleteProperty(id);
+      dispatch(
+        addData(
+          properties.filter((property: PropertywithId) => property._id !== id)
+        )
+      );
+    } catch (error) {
+      console.error(`Error deleting property with id ${id}:`, error);
+    }
+  };
 
+  const handleEdit = (id: String) => {
+    navigate(`/edit/${id}`);
+  };
 
   return (
     <div className="container mx-auto grid lg:grid-cols-2 grid-cols-1 gap-5 my-5">

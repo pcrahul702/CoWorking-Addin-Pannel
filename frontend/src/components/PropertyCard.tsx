@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface PropertyCardProps {
   imageUrl: string;
@@ -11,7 +11,7 @@ interface PropertyCardProps {
   price: string;
   currency: string;
   handleDelete: () => void;
-  handleEdit:()=>void;
+  handleEdit: () => void;
   isFavorite?: boolean;
 }
 
@@ -47,7 +47,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               </span>
             )}
             <span className="text-gray-500">
-              <i className={`fas fa-heart ${isFavorite ? 'text-red-500' : ''}`}></i>
+              <i
+                className={`fas fa-heart ${isFavorite ? "text-red-500" : ""}`}
+              ></i>
             </span>
           </div>
           <h2 className="text-xl font-bold mt-2">{title}</h2>
@@ -90,25 +92,21 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             </p>
             <p className="text-sm text-gray-600">/ desk / month</p>
           </div>
-        <div className='flex gap-5'>  <button
-            className="bg-red-600 text-white px-4 py-2 rounded-lg"
-            onClick={handleDelete}
-          >
-            Delete
-          </button>
-          <button
-            
- className="bg-yellow-600 text-white px-4 py-2 rounded-lg"
-
-
-
-
-
-            
-            onClick={handleEdit}
-          >
-           Edit
-          </button></div>
+          <div className="flex gap-5">
+            {" "}
+            <button
+              className="bg-red-600 text-white px-4 py-2 rounded-lg"
+              onClick={handleDelete}
+            >
+              Delete
+            </button>
+            <button
+              className="bg-yellow-600 text-white px-4 py-2 rounded-lg"
+              onClick={handleEdit}
+            >
+              Edit
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,52 +1,31 @@
-import React,{ useState, useEffect } from "react";
+import { useEffect } from "react";
 import { HeroSetion } from "../components/HeroSetion";
 import PropertyList from "../components/PropertyList";
-import { useNavigate } from "react-router-dom";
-import { getProperties, deleteProperty } from '../services/WebService';
-export interface Property {
-  _id: string;
-  imageUrl: string;
-  isPopular: boolean;
-  title: string;
-  location: string;
-  hours: string;
-  meetingRooms: string[];
-  facilities: string[];
-  price: string;
-  currency: string;
-  isFavorite: boolean;
-}
+import { getProperties } from "../services/WebService";
+import { useDispatch, useSelector } from "react-redux";
+import { addData } from "../redux/slices/PropertiesSlice";
+import { RootState } from "../redux/store";
 const Home = () => {
-  const [properties, setProperties] = useState<Property[]>([]);
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const properties = useSelector(
+    (state: RootState) => state.PropertiesSlice.value
+  );
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const data:any = await getProperties();
-        setProperties(data);
+        const data: any = await getProperties();
+        dispatch(addData(data));
       } catch (error) {
-        console.error('Error fetching properties:', error);
+        console.error("Error fetching properties:", error);
       }
     };
     fetchProperties();
   }, []);
 
-  const handleDelete = async (id: String) => {
-    try {
-      await deleteProperty(id);
-      setProperties(properties.filter((property) => property._id !== id));
-    } catch (error) {
-      console.error(`Error deleting property with id ${id}:`, error);
-    }
-  };
-
-  const handleEdit = (id: String) => {
-    navigate(`/edit/${id}`);
-  };
   return (
     <div className="">
       <HeroSetion />
-      <PropertyList  properties={properties} handleEdit={handleEdit} handleDelete={handleDelete}/>
+      <PropertyList properties={properties} />
     </div>
   );
 };
