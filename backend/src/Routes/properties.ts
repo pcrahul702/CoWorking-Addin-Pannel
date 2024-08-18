@@ -2,12 +2,23 @@ import express from "express";
 import Property from "../Models/properties";
 const router = express.Router();
 router.get("/", async (req, res) => {
+ 
   try {
     const properties = await Property.find();
-    if(!properties){
-        return res.status(200).json({message:"Not Property found"})
-    }
     res.json(properties);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({  message: "something Went Wrong" });
+  }
+});
+router.get("/:id", async (req, res) => {
+ 
+  try {
+    const property = await Property.findById({_id:req.params.id});
+    if(!property){
+        return res.status(400).json({message:"Not Property found"})
+    }
+    res.json(property);
   } catch (err) {
     console.log(err)
     res.status(500).json({  message: "something Went Wrong" });

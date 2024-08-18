@@ -4,7 +4,7 @@ import 'dotenv/config';
 import mongoose from 'mongoose';
 import PropertyRoutes from "./Routes/properties"
 const app = express();
-const PORT = 5001;
+const PORT = 5000;
 
 // Middleware
 app.use(express.json());
@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 //api routes added;
-app.use("/api/property",PropertyRoutes);
+app.use("/api/properties",PropertyRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)

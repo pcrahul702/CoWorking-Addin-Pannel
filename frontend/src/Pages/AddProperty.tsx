@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { addProperty } from '../services/propertyService';
-// import { useHistory } from 'react-router-dom';
+import {addProperty } from '../services/WebService';
+import { useNavigate } from 'react-router-dom';
 
 interface Property {
   imageUrl: string;
@@ -16,7 +16,7 @@ interface Property {
 }
 
 const AddProperty: React.FC = () => {
-  // const history = useHistory();
+  const Navigate = useNavigate();
   const [property, setProperty] = useState<Property>({
     imageUrl: '',
     isPopular: false,
@@ -55,8 +55,8 @@ const AddProperty: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // await addProperty(property);
-    // history.push('/');
+    await addProperty(property);
+    Navigate('/');
   };
 
   return (

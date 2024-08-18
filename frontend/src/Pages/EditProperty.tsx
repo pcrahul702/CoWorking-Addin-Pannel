@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-// import { getProperty, updateProperty } from '../services/propertyService';
-import { useParams } from 'react-router-dom';
-
-interface Property {
+import React, { useState, useEffect } from "react";
+import { GetProperty, updateProperty } from "../services/WebService";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+export interface Property {
+  _id: string;
   imageUrl: string;
   isPopular: boolean;
   title: string;
@@ -17,41 +18,45 @@ interface Property {
 
 const EditProperty: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-
+  const Navigate = useNavigate();
   const [property, setProperty] = useState<Property>({
-    imageUrl: '',
+    _id: id || "",
+    imageUrl: "",
     isPopular: false,
-    title: '',
-    location: '',
-    hours: '',
+    title: "",
+    location: "",
+    hours: "",
     meetingRooms: [],
     facilities: [],
-    price: '',
-    currency: '₹',
+    price: "",
+    currency: "₹",
     isFavorite: false,
   });
 
   useEffect(() => {
     const fetchProperty = async () => {
-      const data = await getProperty(id);
+      const data: any = await GetProperty(id);
+      console.log(data);
       setProperty(data);
     };
     fetchProperty();
   }, [id]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value, type, checked } = e.target;
     setProperty({
       ...property,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
   const handleArrayChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    arrayName: 'meetingRooms' | 'facilities'
+    arrayName: "meetingRooms" | "facilities"
   ) => {
     const { value, checked } = e.target;
     setProperty((prevState) => ({
@@ -65,7 +70,7 @@ const EditProperty: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await updateProperty(id, property);
-    history.push('/');
+    Navigate("/");
   };
 
   return (
@@ -127,8 +132,8 @@ const EditProperty: React.FC = () => {
               <input
                 type="checkbox"
                 value="Meeting Rooms"
-                checked={property.meetingRooms.includes('Meeting Rooms')}
-                onChange={(e) => handleArrayChange(e, 'meetingRooms')}
+                checked={property.meetingRooms.includes("Meeting Rooms")}
+                onChange={(e) => handleArrayChange(e, "meetingRooms")}
                 className="h-4 w-4 text-blue-600 border-gray-300 rounded"
               />
               <span className="text-gray-700">Meeting Rooms</span>
@@ -137,8 +142,8 @@ const EditProperty: React.FC = () => {
               <input
                 type="checkbox"
                 value="Break Rooms"
-                checked={property.meetingRooms.includes('Break Rooms')}
-                onChange={(e) => handleArrayChange(e, 'meetingRooms')}
+                checked={property.meetingRooms.includes("Break Rooms")}
+                onChange={(e) => handleArrayChange(e, "meetingRooms")}
                 className="h-4 w-4 text-blue-600 border-gray-300 rounded"
               />
               <span className="text-gray-700">Break Rooms</span>
@@ -152,8 +157,8 @@ const EditProperty: React.FC = () => {
               <input
                 type="checkbox"
                 value="Dedicated Desks"
-                checked={property.facilities.includes('Dedicated Desks')}
-                onChange={(e) => handleArrayChange(e, 'facilities')}
+                checked={property.facilities.includes("Dedicated Desks")}
+                onChange={(e) => handleArrayChange(e, "facilities")}
                 className="h-4 w-4 text-blue-600 border-gray-300 rounded"
               />
               <span className="text-gray-700">Dedicated Desks</span>
@@ -162,8 +167,8 @@ const EditProperty: React.FC = () => {
               <input
                 type="checkbox"
                 value="Private Cabins"
-                checked={property.facilities.includes('Private Cabins')}
-                onChange={(e) => handleArrayChange(e, 'facilities')}
+                checked={property.facilities.includes("Private Cabins")}
+                onChange={(e) => handleArrayChange(e, "facilities")}
                 className="h-4 w-4 text-blue-600 border-gray-300 rounded"
               />
               <span className="text-gray-700">Private Cabins</span>
@@ -172,8 +177,8 @@ const EditProperty: React.FC = () => {
               <input
                 type="checkbox"
                 value="Managed Office"
-                checked={property.facilities.includes('Managed Office')}
-                onChange={(e) => handleArrayChange(e, 'facilities')}
+                checked={property.facilities.includes("Managed Office")}
+                onChange={(e) => handleArrayChange(e, "facilities")}
                 className="h-4 w-4 text-blue-600 border-gray-300 rounded"
               />
               <span className="text-gray-700">Managed Office</span>
@@ -224,5 +229,3 @@ const EditProperty: React.FC = () => {
 };
 
 export default EditProperty;
-
-
