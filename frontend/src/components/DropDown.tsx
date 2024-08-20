@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
+import {setFilterData} from "../redux/slices/PropertiesSlice"
 interface DropDownProps {
   label: string;
   options: { value: string; label: string }[];
@@ -16,6 +17,12 @@ const DropDown: React.FC<DropDownProps> = ({
   onChange,
   id = 'dropdown',
 }) => {
+  const dispatch=useDispatch()
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    onChange(value);
+    dispatch(setFilterData({ label, value }));
+  };
   return (
     <div>
       {/* <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -24,7 +31,7 @@ const DropDown: React.FC<DropDownProps> = ({
       <select
         id={id}
         value={selectedValue}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => handleChange(e)}
         className="mt-1 block w-full pl-3 pr-10 py-2 text-base text-gray-700 border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
       >
         <option value="">Select {label}</option>

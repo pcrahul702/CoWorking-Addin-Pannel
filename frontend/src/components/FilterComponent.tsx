@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Dropdown from './DropDown';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from "../redux/store";
-import { setFilteredProperties } from "../redux/slices/PropertiesSlice";
+import { setFilterData, resetFilterData } from "../redux/slices/PropertiesSlice";
 import { PropertywithId } from '../Interface/interface';
 
 interface FilterOption {
@@ -25,33 +25,41 @@ const FilterComponent: React.FC<FilterComponentProps> = ({
   const [location, setLocation] = useState('');
   const [propertyType, setPropertyType] = useState('');
   const dispatch = useDispatch();
-  const properties = useSelector(
-    (state: RootState) => state.PropertiesSlice.value
-  );
+  // const properties = useSelector(
+  //   (state: RootState) => state.PropertiesSlice.value
+  // );
 
   const resetFilters = () => {
     setPrice('');
     setLocation('');
     setPropertyType('');
+    dispatch(resetFilterData());
   };
-
   useEffect(() => {
-    const handleFilter = () => {
-      if (price || propertyType || location) {
-        const data = properties.filter((item: PropertywithId) => {
-          return (
-            item.location.toLowerCase().includes(location.toLowerCase()) 
-            
-          );
-        });
-        dispatch(setFilteredProperties(data));
-      } else {
-        dispatch(setFilteredProperties([]));
-      }
-    };
+    
+  }, [price, propertyType, location, dispatch]);
+  
 
-    handleFilter();
-  }, [price, propertyType, location, dispatch, properties]);
+  // const handleChnage=(data:string)=>{
+
+  // }
+  // useEffect(() => {
+  //   const handleFilter = () => {
+  //     if (price || propertyType || location) {
+  //       const data = properties.filter((item: PropertywithId) => {
+  //         return (
+  //           item.location.toLowerCase().includes(location.toLowerCase()) 
+  //           ||  item.location.toLowerCase().includes(location.toLowerCase()) 
+  //         );
+  //       });
+  //       dispatch(setFilteredProperties(data));
+  //     } else {
+  //       dispatch(setFilteredProperties([]));
+  //     }
+  //   };
+
+  //   handleFilter();
+  // }, [price, propertyType, location, dispatch, properties]);
 
   return (
     <div className="flex justify-between items-center text-white">
