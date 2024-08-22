@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import {addProperty } from '../services/WebService';
 import { useNavigate } from 'react-router-dom';
-
+import DropDown from '../components/DropDown';
 interface Property {
   imageUrl: string;
   isPopular: boolean;
   title: string;
   location: string;
+  city:string;
   hours: string;
   meetingRooms: string[];
   facilities: string[];
   price: string;
-  currency: string;
-  isFavorite: boolean;
+  state:string;
+  propertyType:string;
 }
 
 const AddProperty: React.FC = () => {
@@ -26,14 +27,20 @@ const AddProperty: React.FC = () => {
     meetingRooms: [],
     facilities: [],
     price: '',
-    currency: '₹',
-    isFavorite: false,
+    city:'',
+    state:'',
+    propertyType:''
+  
   });
-
-  const handleChange = (
+ const propertyTypeOptions = [
+  { label: 'Apartment', value: 'apartment' },
+  { label: 'House', value: 'house' },
+  { label: 'Studio', value: 'studio' },
+];  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value, type, checked } = e.target;
+    console.log(name, "hhhh", value, type, checked)
     setProperty({
       ...property,
       [name]: type === 'checkbox' ? checked : value,
@@ -54,16 +61,18 @@ const AddProperty: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log(property)
     e.preventDefault();
     await addProperty(property);
     Navigate('/');
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
+    <div className="max-w-3xl mx-auto p-5">
       <h1 className="text-2xl font-bold mb-4">Add Property</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
+          
           <input
             name="imageUrl"
             placeholder="Image URL"
@@ -96,8 +105,24 @@ const AddProperty: React.FC = () => {
         <div>
           <input
             name="location"
-            placeholder="Location"
+            placeholder="Area"
             value={property.location}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          />
+        </div>
+        <div className='flex gap-5'>
+        <input
+            name="city"
+            placeholder="City Name"
+            value={property.city}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-lg"
+          />
+            <input
+            name="state"
+            placeholder="state Name"
+            value={property.state}
             onChange={handleChange}
             className="w-full p-2 border rounded-lg"
           />
@@ -105,7 +130,7 @@ const AddProperty: React.FC = () => {
         <div>
           <input
             name="hours"
-            placeholder="Hours"
+            placeholder="Duration Hours"
             value={property.hours}
             onChange={handleChange}
             className="w-full p-2 border rounded-lg"
@@ -171,7 +196,7 @@ const AddProperty: React.FC = () => {
             </label>
           </div>
         </div>
-        <div>
+        <div className='flex gap-5 '>
           <input
             name="price"
             placeholder="Price"
@@ -179,28 +204,17 @@ const AddProperty: React.FC = () => {
             onChange={handleChange}
             className="w-full p-2 border rounded-lg"
           />
+           
+        <DropDown
+          id="propertyType"
+          selectedValue={property.propertyType}
+          label="propertyType"
+          options={propertyTypeOptions}
+          onChange={handleChange}
+           className="w-full p-2 border rounded-lg"
+        />
         </div>
-        <div>
-          <input
-            name="currency"
-            placeholder="Currency"
-            value={property.currency}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-lg"
-          />
-        </div>
-        <div className="flex items-center space-x-2">
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              name="isFavorite"
-              checked={property.isFavorite}
-              onChange={handleChange}
-              className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-            />
-            <span className="text-gray-700">Favorite</span>
-          </label>
-        </div>
+       
         <div>
           <button
             type="submit"

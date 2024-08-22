@@ -9,10 +9,11 @@ interface PropertyCardProps {
   meetingRooms: string[];
   facilities: string[];
   price: string;
-  currency: string;
+  state: string;
+  propertyType: string;
+  city: string;
   handleDelete: () => void;
   handleEdit: () => void;
-  isFavorite?: boolean;
 }
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
@@ -24,10 +25,11 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   meetingRooms,
   facilities,
   price,
-  currency,
+  city,
   handleDelete,
   handleEdit,
-  isFavorite = false,
+  state,
+  propertyType,
 }) => {
   return (
     <div className="border rounded-lg shadow-lg flex p-4 w-full mx-auto">
@@ -46,33 +48,25 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                 Popular
               </span>
             )}
-            <span className="text-gray-500">
-              <i
-                className={`fas fa-heart ${isFavorite ? "text-red-500" : ""}`}
-              ></i>
-            </span>
           </div>
           <h2 className="text-xl font-bold mt-2">{title}</h2>
           <p className="text-gray-600">
-            <i className="fas fa-map-marker-alt"></i> {location}
+            <i className="fas fa-map-marker-alt"></i> {location}, {city}, {state}
           </p>
           <p className="text-gray-600">
             <i className="fas fa-clock"></i> {hours}
           </p>
           <div className="flex items-center mt-2">
             {meetingRooms.map((room, index) => (
-              <button
+              <div
                 key={index}
-                className="bg-blue-100 text-blue-600 px-2 py-1 rounded mr-2"
+                className="bg-gray-200 text-gray-700 px-2 py-1 rounded mr-2 mb-2"
               >
                 {room}
-              </button>
+              </div>
             ))}
-            {meetingRooms.length > 2 && (
-              <span className="text-gray-600">+{meetingRooms.length - 2}</span>
-            )}
           </div>
-          <div className="flex flex-wrap mt-4">
+          <div className="flex flex-wrap mt-2">
             {facilities.map((facility, index) => (
               <span
                 key={index}
@@ -86,10 +80,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         <div className="flex justify-between items-center mt-4">
           <div>
             <p className="text-gray-600">Price Starting at</p>
-            <p className="text-2xl font-bold text-gray-800">
-              {currency}
-              {price}
-            </p>
+            <p className="text-2xl font-bold text-gray-800">₹{price}</p>
             <p className="text-sm text-gray-600">/ desk / month</p>
           </div>
           <div className="flex gap-5">

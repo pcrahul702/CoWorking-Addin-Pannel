@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:5000/api/properties';
 
 export const getProperties = async (filterdata:any) => {
   try {
-    const response = await axios.post(API_URL,{filter:filterdata});
+    const response = await axios.get(`${API_URL}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching properties:', error);

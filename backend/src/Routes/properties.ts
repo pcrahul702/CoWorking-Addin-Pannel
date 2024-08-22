@@ -1,62 +1,71 @@
 import express, { response } from "express";
 import Property from "../Models/properties";
 const router = express.Router();
-router.post("/", async (req, res) => {
-  const { filter } = req.body;
-  console.log(filter)
+// router.get("/", async (req, res) => {
+//   const { filter } = req.body;
+//   console.log(filter)
+//   try {
+//     // const isFilterEmpty = !filter || Object.keys(filter).length === 0;
+//     // let query: { [key: string]: any } = {};
+
+//     // if (!isFilterEmpty) {
+//     //   // Build the query object if filter is not empty
+//     //   if (filter.price) {
+//     //     if (filter.price === 'low') {
+//     //       query.price = { $lte: 1000 };
+//     //     } else if (filter.price === 'medium') {
+//     //       query.price = { $gt: 1000, $lte: 4000 };
+//     //     } else if (filter.price === 'large') {
+//     //       query.price = { $gt: 4000 };
+//     //     }
+//     //   }
+
+//     //   if (filter.propertyType) {
+//     //     query.propertyType = filter.propertyType;
+//     //   }
+
+//     //   if (filter.location) {
+//     //     query.location = filter.location;
+//     //   }
+//     // }
+
+//     const properties = await Property.find();
+
+//     let FilteredProperties:any
+//     if(filter.location){
+//       FilteredProperties =properties.filter((item)=>{
+//         console.log(item.location.includes(filter.location))
+//       })
+//     }
+//     console.log(FilteredProperties)
+//    let resp=(FilteredProperties && FilteredProperties.length>0)?FilteredProperties:properties;
+//    console.log(resp)
+//    res.status(200).send(properties)
+
+//   } catch (err) {
+//     console.log(err)
+//     res.status(500).json({  message: "something Went Wrong" });
+//   }
+// });
+router.get("/", async (req, res) => {
   try {
-    // const isFilterEmpty = !filter || Object.keys(filter).length === 0;
-    // let query: { [key: string]: any } = {};
-
-    // if (!isFilterEmpty) {
-    //   // Build the query object if filter is not empty
-    //   if (filter.price) {
-    //     if (filter.price === 'low') {
-    //       query.price = { $lte: 1000 };
-    //     } else if (filter.price === 'medium') {
-    //       query.price = { $gt: 1000, $lte: 4000 };
-    //     } else if (filter.price === 'large') {
-    //       query.price = { $gt: 4000 };
-    //     }
-    //   }
-
-    //   if (filter.propertyType) {
-    //     query.propertyType = filter.propertyType;
-    //   }
-
-    //   if (filter.location) {
-    //     query.location = filter.location;
-    //   }
-    // }
-
     const properties = await Property.find();
-  
-    let FilteredProperties:any
-    if(filter.location){
-      FilteredProperties =properties.filter((item)=>{
-        console.log(item.location.includes(filter.location))
-      })
-    }
-    console.log(FilteredProperties)
-   let resp=(FilteredProperties && FilteredProperties.length>0)?FilteredProperties:properties;
-   console.log(resp)
-    
+    res.json(properties);
   } catch (err) {
-    console.log(err)
-    res.status(500).json({  message: "something Went Wrong" });
+    console.log(err);
+    res.status(500).json({ message: "something Went Wrong" });
   }
 });
 router.get("/:id", async (req, res) => {
- 
   try {
-    const property = await Property.findById({_id:req.params.id});
-    if(!property){
-        return res.status(400).json({message:"Not Property found"})
+    const property = await Property.findById({ _id: req.params.id });
+    if (!property) {
+      return res.status(400).json({ message: "Not Property found" });
     }
     res.json(property);
   } catch (err) {
-    console.log(err)
-    res.status(500).json({  message: "something Went Wrong" });
+    console.log(err);
+    res.status(500).json({ message: "something Went Wrong" });
   }
 });
 router.post("/", async (req, res) => {
@@ -69,15 +78,16 @@ router.post("/", async (req, res) => {
     meetingRooms: req.body.meetingRooms,
     facilities: req.body.facilities,
     price: req.body.price,
-    currency: req.body.currency,
-    isFavorite: req.body.isFavorite,
+    state: req.body.state,
+    city: req.body.city,
+    propertyType: req.body.propertyType,
   });
   try {
     const newProperty = await property.save();
     res.status(201).json(newProperty);
   } catch (err) {
-    console.log(err)
-    res.status(500).json({  message: "something Went Wrong" });
+    console.log(err);
+    res.status(500).json({ message: "something Went Wrong" });
   }
 });
 router.put("/:id", async (req, res) => {
@@ -94,13 +104,14 @@ router.put("/:id", async (req, res) => {
     property.meetingRooms = req.body.meetingRooms;
     property.facilities = req.body.facilities;
     property.price = req.body.price;
-    property.currency = req.body.currency;
-    property.isFavorite = req.body.isFavorite;
+    property.state = req.body.state;
+    property.city = req.body.city;
+    property.propertyType = req.body.propertyType;
 
     const updatedProperty = await property.save();
     res.json(updatedProperty);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ message: "something Went Wrong" });
   }
 });

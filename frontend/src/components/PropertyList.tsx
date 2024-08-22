@@ -44,9 +44,11 @@ const PropertyList: React.FC<PropertyListProps> = ({ properties }) => {
           meetingRooms={property.meetingRooms}
           facilities={property.facilities}
           price={property.price}
-          currency={property.currency}
+    
           handleDelete={() => handleDelete(property._id)}
-          isFavorite={property.isFavorite}
+          state={property.state}
+          propertyTyp={property.propertyType}
+          city={property.city}
           handleEdit={() => handleEdit(property._id)}
         />
       ))}
